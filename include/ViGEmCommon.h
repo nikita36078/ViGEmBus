@@ -175,6 +175,22 @@ typedef struct _DS4_REPORT
     BYTE bSpecial;
     BYTE bTriggerL;
     BYTE bTriggerR;
+    BYTE unknown;
+    BYTE unknown2;
+    BYTE unknown3;
+    BYTE unknown4;
+    BYTE bAccelY1;
+    BYTE bAccelY2;
+    BYTE bAccelX1;
+    BYTE bAccelX2;
+    BYTE bAccelZ1;
+    BYTE bAccelZ2;
+    BYTE bGyroX1;
+    BYTE bGyroX2;
+    BYTE bGyroY1;
+    BYTE bGyroY2;
+    BYTE bGyroZ1;
+    BYTE bGyroZ2;
 
 } DS4_REPORT, *PDS4_REPORT;
 
