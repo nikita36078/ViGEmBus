@@ -7,6 +7,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ViGEmBus", "sys\ViGEmBus.vc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ViGEmClient", "lib\ViGEmClient.vcxproj", "{7DB06674-1F4F-464B-8E1C-172E9587F9DC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FourShock", "plugins\FourShock\FourShock.vcxproj", "{CBE35503-D7FE-41A7-A13D-23C84DDF5525}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7DB06674-1F4F-464B-8E1C-172E9587F9DC} = {7DB06674-1F4F-464B-8E1C-172E9587F9DC}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug (dynamic)|ARM = Debug (dynamic)|ARM
@@ -147,6 +152,50 @@ Global
 		{7DB06674-1F4F-464B-8E1C-172E9587F9DC}.Release|x64.Build.0 = Release (static)|x64
 		{7DB06674-1F4F-464B-8E1C-172E9587F9DC}.Release|x86.ActiveCfg = Release (static)|Win32
 		{7DB06674-1F4F-464B-8E1C-172E9587F9DC}.Release|x86.Build.0 = Release (static)|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (dynamic)|ARM.ActiveCfg = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (dynamic)|ARM.Build.0 = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (dynamic)|ARM64.ActiveCfg = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (dynamic)|ARM64.Build.0 = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (dynamic)|x64.ActiveCfg = Debug|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (dynamic)|x64.Build.0 = Debug|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (dynamic)|x86.ActiveCfg = Debug|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (dynamic)|x86.Build.0 = Debug|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (static)|ARM.ActiveCfg = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (static)|ARM.Build.0 = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (static)|ARM64.ActiveCfg = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (static)|ARM64.Build.0 = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (static)|x64.ActiveCfg = Debug|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (static)|x64.Build.0 = Debug|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (static)|x86.ActiveCfg = Debug|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug (static)|x86.Build.0 = Debug|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug|ARM.ActiveCfg = Debug|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug|ARM64.ActiveCfg = Debug|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug|x64.ActiveCfg = Debug|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug|x64.Build.0 = Debug|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug|x86.ActiveCfg = Debug|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Debug|x86.Build.0 = Debug|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (dynamic)|ARM.ActiveCfg = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (dynamic)|ARM.Build.0 = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (dynamic)|ARM64.ActiveCfg = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (dynamic)|ARM64.Build.0 = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (dynamic)|x64.ActiveCfg = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (dynamic)|x64.Build.0 = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (dynamic)|x86.ActiveCfg = Release|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (dynamic)|x86.Build.0 = Release|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (static)|ARM.ActiveCfg = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (static)|ARM.Build.0 = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (static)|ARM64.ActiveCfg = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (static)|ARM64.Build.0 = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (static)|x64.ActiveCfg = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (static)|x64.Build.0 = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (static)|x86.ActiveCfg = Release|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release (static)|x86.Build.0 = Release|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release|ARM.ActiveCfg = Release|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release|ARM64.ActiveCfg = Release|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release|x64.ActiveCfg = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release|x64.Build.0 = Release|x64
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release|x86.ActiveCfg = Release|Win32
+		{CBE35503-D7FE-41A7-A13D-23C84DDF5525}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
