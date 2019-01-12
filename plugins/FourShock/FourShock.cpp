@@ -23,10 +23,10 @@ struct EmulationTarget
 };
 
 static EmulationTarget targets[4];
-int numTargets = 0;
 DualShock3Device** devices;
 
-void EnumDualShock3s();
+int Connect(PVIGEM_CLIENT client);
+int EnumDualShock3s();
 VOID my_ds4_notification(
 	PVIGEM_CLIENT Client,
 	PVIGEM_TARGET Target,
@@ -36,44 +36,68 @@ VOID my_ds4_notification(
 
 int main()
 {
-	EnumDualShock3s();
-	if (numTargets == 0) {
-		cout << "DS3 isn't connected" << endl;
-		system("pause");
-		return -1;
+	if (!DualShock3Possible()) {
+		cout << "Error" << endl;
+		return 0;
 	}
+	cout << "Waiting for connection..." << endl;
 
 	//
 	// Alloc ViGEm client
 	// 
-	auto client = vigem_alloc();
-	auto retval = vigem_connect(client);
+	PVIGEM_CLIENT client = vigem_alloc();
+	VIGEM_ERROR retval = vigem_connect(client);
 	if (!VIGEM_SUCCESS(retval))
 	{
 		cout << "ViGEm Bus connection failed" << endl;
-		system("pause");
-		return -1;
+		return 0;
+	}
+
+	while (!(GetKeyState('A') & 0x8000)) {
+		Connect(client);
+		Sleep(3000);
+	}
+
+	vigem_disconnect(client);
+	vigem_free(client);
+	cout << "Program finished" << endl;
+	system("pause");
+	return 0;
+}
+
+VOID my_ds4_notification(
+	PVIGEM_CLIENT Client,
+	PVIGEM_TARGET Target,
+	UCHAR LargeMotor,
+	UCHAR SmallMotor,
+	DS4_LIGHTBAR_COLOR LightbarColor)
+{
+	int i = 0;
+	devices[i]->vibration[1] = SmallMotor;
+	devices[i]->vibration[0] = LargeMotor;
+	Sleep(1);
+}
+
+int Connect(PVIGEM_CLIENT client) {
+	if (EnumDualShock3s() == 0) {
+		return 0;
 	}
 
 	// Select 1st gamepad
 	int i = 0;
-	if (targets[i].isTargetConnected)
-	{
-		targets[i].isTargetConnected = !VIGEM_SUCCESS(vigem_target_remove(client, targets[i].target));
+
+	if (targets[i].isTargetConnected) {
+		vigem_target_remove(client, targets[i].target);
 		vigem_target_free(targets[i].target);
 	}
-	else
+	targets[i].target = vigem_target_ds4_alloc();
+	auto pir = vigem_target_add(client, targets[i].target);
+	if (!VIGEM_SUCCESS(pir))
 	{
-		targets[i].target = vigem_target_ds4_alloc();
-		auto pir = vigem_target_add(client, targets[i].target);
-		if (!VIGEM_SUCCESS(pir))
-		{
-			cout << L"Target plugin failed" << endl;
-			system("pause");
-			return -1;
-		}
-		targets[i].isTargetConnected = vigem_target_is_attached(targets[i].target);
+		cout << L"Target plugin failed" << endl;
+		return 0;
 	}
+	targets[i].isTargetConnected = vigem_target_is_attached(targets[i].target);
 
 	if (targets[i].isTargetConnected)
 	{
@@ -83,13 +107,7 @@ int main()
 		devices[i]->Activate();
 		vigem_target_ds4_register_notification(client, targets[i].target, (PVIGEM_DS4_NOTIFICATION)my_ds4_notification);
 
-		while (true) {
-			if (GetKeyState('A') & 0x8000)
-			{
-				break;
-			}
-
-			devices[i]->Update();
+		while (devices[i]->Update() && !(GetKeyState('A') & 0x8000)) {
 			DS4_REPORT_INIT(&rep);
 			USHORT wNewButtons = 0;
 			unsigned char* state = devices[i]->getState;
@@ -159,47 +177,29 @@ int main()
 			Sleep(1);
 		}
 	}
-
-	vigem_disconnect(client);
-	vigem_free(client);
 	devices[i]->Deactivate();
 	cout << "ViGEm device disconnected" << endl;
-	system("pause");
-	return 1;
+	return 0;
 }
 
-VOID my_ds4_notification(
-	PVIGEM_CLIENT Client,
-	PVIGEM_TARGET Target,
-	UCHAR LargeMotor,
-	UCHAR SmallMotor,
-	DS4_LIGHTBAR_COLOR LightbarColor)
+int EnumDualShock3s()
 {
-	int i = 0;
-	devices[i]->vibration[1] = SmallMotor;
-	devices[i]->vibration[0] = LargeMotor;
-	Sleep(1);
-}
-
-void EnumDualShock3s()
-{
-	if (!DualShock3Possible())
-		return;
-
+	int numTargets = 0;
 	HidDeviceInfo *foundDevs = 0;
 
 	int numDevs = FindHids(&foundDevs, VID, PID);
-	if (!numDevs)
-		return;
-	for (int i = 0; i < numDevs; i++) {
-		if (foundDevs[i].caps.FeatureReportByteLength == 49 &&
-			foundDevs[i].caps.InputReportByteLength == 49 &&
-			foundDevs[i].caps.OutputReportByteLength == 49) {
-			wchar_t temp[100];
-			wsprintfW(temp, L"DualShock 3 #%i", numTargets + 1);
-			devices = (DualShock3Device **)realloc(devices, sizeof(DualShock3Device *) * (numTargets + 1));
-			devices[numTargets++] = new DualShock3Device(numTargets, temp, foundDevs[i].path);
+	if (numDevs) {
+		for (int i = 0; i < numDevs; i++) {
+			if (foundDevs[i].caps.FeatureReportByteLength == 49 &&
+				foundDevs[i].caps.InputReportByteLength == 49 &&
+				foundDevs[i].caps.OutputReportByteLength == 49) {
+				wchar_t temp[100];
+				wsprintfW(temp, L"DualShock 3 #%i", numTargets + 1);
+				devices = (DualShock3Device **)realloc(devices, sizeof(DualShock3Device *) * (numTargets + 1));
+				devices[numTargets++] = new DualShock3Device(numTargets, temp, foundDevs[i].path);
+			}
 		}
+		free(foundDevs);
 	}
-	free(foundDevs);
+	return numTargets;
 }
