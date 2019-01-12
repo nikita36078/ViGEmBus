@@ -148,12 +148,12 @@ int main()
 			rep.bAccelY2 = accelY & 0xFF;
 			rep.bAccelZ1 = accelZ >> 8;
 			rep.bAccelZ2 = accelZ & 0xFF;
-			rep.bGyroX1 = rep.bAccelX1;
-			rep.bGyroX2 = rep.bAccelX2;
-			rep.bGyroY1 = rep.bAccelY1;
-			rep.bGyroY2 = rep.bAccelY2;
-			rep.bGyroZ1 = rep.bAccelZ1;
-			rep.bGyroZ2 = rep.bAccelZ2;
+			rep.bGyroX1 = accelY >> 8;
+			rep.bGyroX2 = accelY & 0xFF;
+			rep.bGyroY1 = accelX >> 8;
+			rep.bGyroY2 = accelX & 0xFF;
+			rep.bGyroZ1 = accelZ >> 8;
+			rep.bGyroZ2 = accelZ & 0xFF;
 
 			vigem_target_ds4_update(client, targets[i].target, rep);
 			Sleep(1);
